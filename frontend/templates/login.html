@@ -887,15 +887,29 @@
             
             toast.show();
         }
-        // Add this to disable all tab clicks
+        // Add this script to handle tab navigation
         document.addEventListener('DOMContentLoaded', function() {
-            // Remove click handlers from all tabs
-            const tabs = document.querySelectorAll('.nav-link[data-bs-toggle="tab"]');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-               });
+            // Disable all tab links completely
+            const tabLinks = document.querySelectorAll('.nav-link[data-bs-toggle="tab"]');
+            tabLinks.forEach(link => {
+                link.style.pointerEvents = 'none';
+                link.style.cursor = 'default';
+
+                // Remove the data-bs-toggle attribute to prevent Bootstrap from handling clicks
+                link.removeAttribute('data-bs-toggle');
+
+                // Add visual indication that tabs aren't clickable
+                if (!link.classList.contains('active')) {
+                    link.style.opacity = '0.7';
+                }
             });
+
+            // Only allow the currently active tab to be clickable (for visual feedback)
+            const activeTab = document.querySelector('.nav-link.active');
+            if (activeTab) {
+                activeTab.style.pointerEvents = 'auto';
+                activeTab.style.cursor = 'pointer';
+            }
         });
     </script>
 </body>
