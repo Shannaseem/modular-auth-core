@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
+
+# Python virtual environments
+venv/
+ENV/
+env/
+
+# Logs and database
+*.log
+*.db
+
+# OS and IDE junk
+.DS_Store
+Thumbs.db
+
+# Static/media uploads (customize if needed)
+backend/static/uploads/
+
+# Node dependencies (if applicable)
+node_modules/
