@@ -16,4 +16,5 @@ class User(Base):
     register_as_parent = Column(Boolean, default=False, nullable=True)
     cnic_front_path = Column(String, nullable=True)
     cnic_back_path = Column(String, nullable=True)
+    otp_code: str   # 6-digit OTP stored temporarily
     is_verified = Column(Boolean, default=False, nullable=False)
