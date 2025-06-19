@@ -136,7 +136,7 @@ async def send_otp_email(to_email: str, otp: str):
         raise ValueError("Email address is required to send OTP")
     
     msg = EmailMessage()
-    msg["From"] = "scr.hehe@gmail.com"
+    msg["From"] = "example@gmail.com"
     msg["To"] = to_email
     msg["Subject"] = "Your TutEx OTP Verification Code"
     msg.set_content(f"Your TutEx OTP code is: {otp}\nThis code is valid for 5 minutes.")
@@ -147,8 +147,8 @@ async def send_otp_email(to_email: str, otp: str):
             hostname="smtp.gmail.com",
             port=587,
             start_tls=True,
-            username="scr.hehe@gmail.com",
-            password="oyegewtvrrohpxfx",
+            username="example@gmail.com",
+            password="16 digit app password",
         )
         return True
     except Exception as e:
