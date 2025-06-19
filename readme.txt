@@ -6,3 +6,4 @@ CREATE DATABASE tutex; // use postgress
     uvicorn main:app --reload
 }
 
+APP Password of my account: oyeg ewtv rroh pxfx

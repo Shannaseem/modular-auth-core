@@ -13,3 +13,5 @@ typing_extensions==4.14.0
 anyio==4.9.0
 email-validator
 aiosmtplib
+aiofiles
+slowapi

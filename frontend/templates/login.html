@@ -655,7 +655,7 @@
                     <div class="text-center mb-4">
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i>
-                            Please enter the OTP sent to your phone number and email address.
+                            Please enter the OTP sent to your email address.
                         </div>
                     </div>
                     
@@ -775,8 +775,16 @@
                     document.getElementById('registrationError').innerText = data.error;
                     document.getElementById('registrationError').style.display = 'block';
                 } else {
-                    showToast('success', 'Registration successful, please enter OTP');
-                    document.getElementById('verification-tab').click();
+                    // Store email for verification
+                    registrationData.email = data.email;
+
+                    // Only proceed to verification if backend indicates to
+                    if (data.next_step === 'verify') {
+                        showToast('success', 'OTP sent to ' + data.email);
+                        // Programmatically switch to verification tab
+                        const verificationTab = new bootstrap.Tab(document.getElementById('verification-tab'));
+                        verificationTab.show();
+                    }
                 }
             })
             .catch(error => {
@@ -784,7 +792,7 @@
                 document.getElementById('registrationError').innerText = 'An error occurred: ' + error.message;
                 document.getElementById('registrationError').style.display = 'block';
             });
-        }       
+        }     
         
         // Update file name display
         function updateFileName(inputId) {
@@ -815,62 +823,90 @@
         // Resend OTP
         function resendOTP(event) {
             event.preventDefault();
-            showToast('success', 'OTP has been resent to your phone and email');
+            fetch('/resend-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `email=${encodeURIComponent(registrationData.email)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showToast('success', data.message);
+                } else {
+                    showToast('error', data.detail || 'Failed to resend OTP');
+                }
+            })
+            .catch(error => {
+                showToast('error', 'Failed to resend OTP');
+            });
         }
         
         // Submit registration
         function submitRegistration() {
-            // Get OTP
             let otp = '';
             for (let i = 1; i <= 6; i++) {
                 otp += document.getElementById('otp' + i).value;
             }
-            
+
             if (otp.length !== 6) {
                 showToast('error', 'Please enter the complete OTP');
                 return;
             }
-            
-            // Store verification data
-            registrationData.verification = {
-                otp: otp
-            };
-            
-            // Simulate API call to submit data
-            setTimeout(() => {
-                console.log('Registration data:', registrationData);
-                showToast('success', 'Registration submitted successfully! Admin will review your request.');
-                
-                // Reset form after successful submission
+
+            fetch('/verify-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `email=${encodeURIComponent(registrationData.email)}&otp=${otp}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showToast('success', data.message);
                 setTimeout(() => {
-                    document.getElementById('registrationForm').style.display = 'none';
-                    document.getElementById('typeSelectionForm').reset();
-                    document.getElementById('tutorForm').reset();
-                    document.getElementById('studentForm').reset();
-                    document.getElementById('verificationForm').reset();
-                    
-                    // Reset file upload labels
-                    updateFileName('tutorCnicFront');
-                    updateFileName('tutorCnicBack');
-                    
-                    // Reset OTP inputs
-                    for (let i = 1; i <= 6; i++) {
-                        document.getElementById('otp' + i).value = '';
-                    }
-                    
-                    // Reset to first tab
-                    const selectTypeTab = document.getElementById('select-type-tab');
-                    selectTypeTab.click();
-                    
-                    // Reset registration data
-                    registrationData = {
-                        type: '',
-                        tutor: {},
-                        student: {},
-                        verification: {}
-                    };
+                    resetRegistrationForm();
+                    window.location.href = '/login';
                 }, 2000);
-            }, 1500);
+            })
+            .catch(error => {
+                showToast('error', error.detail || 'Verification failed');
+            });
+        }
+        // Helper function to reset form
+        function resetRegistrationForm() {
+            document.getElementById('typeSelectionForm').reset();
+            document.getElementById('tutorForm').reset();
+            document.getElementById('studentForm').reset();
+            document.getElementById('verificationForm').reset();
+
+            // Reset file upload labels
+            updateFileName('tutorCnicFront');
+            updateFileName('tutorCnicBack');
+
+            // Reset OTP inputs
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById('otp' + i).value = '';
+            }
+
+            // Reset to first tab
+            const selectTypeTab = new bootstrap.Tab(document.getElementById('select-type-tab'));
+            selectTypeTab.show();
+
+            // Reset registration data
+            registrationData = {
+                type: '',
+                tutor: {},
+                student: {},
+                verification: {},
+                email: ''
+            };
         }
         
         // Show toast notification
