@@ -18,9 +18,6 @@ env/
 *.log
 *.db
 
-readme.txt
-
-
 # OS and IDE junk
 .DS_Store
 Thumbs.db
