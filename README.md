@@ -132,8 +132,8 @@ Then open your browser at:
 ## 📬 Contact
 
 **Abdulrehman Gulfaraz**
-📧 [abdulrehmangulfaraz@gmail.com](mailto:abdulrehmangulfaraz@gmail.com)
-🐙 [github.com/abdulrehmangulfaraz](https://github.com/abdulrehmangulfaraz)
+📧 [abdulrehmangulfaraz@gmail.com](mailto:abdulrehmangulfaraz@gmail.com) <br>
+🐙 [github.com/abdulrehmangulfaraz](https://github.com/abdulrehmangulfaraz)<br>
 💼 [linkedin.com/in/abdulrehman-gulfaraz](https://linkedin.com/in/abdulrehman-gulfaraz)
 
 ---
