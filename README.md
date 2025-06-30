@@ -151,4 +151,3 @@ Currently implemented:
 - User login/signup with FastAPI
 - Email-based OTP verification using SMTP
 - PostgreSQL database integration with SQLAlchemy
->>>>>>> ff6829b3b53b829c809c152bc12830b78e612da2
