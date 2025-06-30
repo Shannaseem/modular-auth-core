@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # 🚀 modular-auth-core
 
 **A pluggable, production-ready authentication module** built with 🧠 FastAPI — featuring multi-role support, OTP verification, secure file uploads, and dynamic templates.
