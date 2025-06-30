@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # 🚀 modular-auth-core
 
@@ -144,3 +145,12 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/auth_db
 ## 📘 License
 
 MIT — use freely, modify boldly, and give credits where due 💖
+=======
+# TutEx – Home Tutor Finder Platform
+
+Currently implemented:
+
+- User login/signup with FastAPI
+- Email-based OTP verification using SMTP
+- PostgreSQL database integration with SQLAlchemy
+>>>>>>> ff6829b3b53b829c809c152bc12830b78e612da2
