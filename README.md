@@ -1,143 +1,147 @@
-# 🚀 Modular-auth-core
+# 🔐 modular-auth-core
 
-**A pluggable, production-ready authentication module** built with 🧠 FastAPI — featuring multi-role support, OTP verification, secure file uploads, and dynamic templates.
+A Simple, Pluggable Authentication System for FastAPI Projects
 
-> Built with ❤️ by [Abdulrehman Gulfaraz](https://github.com/abdulrehmangulfaraz) — CS Undergrad @ UET Lahore (KSK) | Backend Dev | Pentester
-
----
-
-![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-⚡-green.svg)
-![DB](https://img.shields.io/badge/Database-PostgreSQL%20%7C%20SQLite-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-orange.svg)
+A lightweight FastAPI-based module featuring multi-role login, email OTP verification, and basic HTML templates. Designed for quick integration into small to medium-sized web apps — currently includes basic placeholder dashboards.
 
 ---
 
-## 🧩 Features
+## 📑 Table of Contents
 
-- ✅ **Multi-role support** — `student`, `tutor`, `admin` (easily extendable)
-- 🔐 **OTP-based Email Verification** — with expiry & resend options
-- 📁 **Secure File Uploads** — CNICs, CVs, proofs (with sanitization)
-- 💌 **Responsive Templates** — login, dashboards, role-based views
-- 🧠 **Modular Integration** — drop-in FastAPI router (`auth_router`)
-- 🔄 **DB Support** — works with both PostgreSQL and SQLite
+* [✅ Features](#-features)
+* [🛠️ Technologies Used](#-technologies-used)
+* [📁 Project Structure](#-project-structure)
+* [🔧 Installation Guide](#-installation-guide)
+* [⚙️ Configuration](#-configuration)
+* [🗃️ Database Initialization](#-database-initialization)
+* [▶️ Running the App](#-running-the-app)
+* [📄 Notes](#-notes)
+* [📬 Contact](#-contact)
+* [📜 License](#-license)
 
 ---
 
-## 🗂 Project Structure
+## ✅ Features
+
+* 🔐 Email + Password Authentication
+* ✉️ OTP Verification (via email, with expiry)
+* 🧑‍🤝‍🧑 Basic Role Support: `student`, `tutor`, `admin`
+* 📁 File Upload Support (e.g. CNIC, CVs – validation included)
+* 🌐 Basic HTML templates using Jinja2 (with placeholder content)
+* 🔄 SQLite & PostgreSQL support (via SQLAlchemy)
+
+---
+
+## 🛠️ Technologies Used
+
+| Component  | Tech                |
+| ---------- | ------------------- |
+| Backend    | FastAPI             |
+| ORM        | SQLAlchemy          |
+| Templates  | Jinja2              |
+| Email      | aiosmtplib          |
+| Passwords  | bcrypt              |
+| Config     | python-dotenv       |
+| DB Engines | SQLite / PostgreSQL |
+
+---
+
+## 📁 Project Structure
 
 ```
 modular-auth-core/
 ├── backend/
-│   ├── main.py            # FastAPI entry point
-│   ├── database.py        # SQLAlchemy session & engine
-│   ├── models.py          # User schemas
-│   ├── init_db.py         # DB seeder
+│   ├── __init__.py
+│   ├── database.py
+│   ├── init_db.py
+│   ├── main.py
+│   └── models.py
 │
 ├── frontend/
-│   └── templates/         # Jinja2 HTML Forms
-│       ├── base.html
-│       ├── login.html
-│       ├── student.html
-│       ├── tutor_dashboard.html
-│       └── admin.html
+│   └── templates/
+│       ├── admin.html              # "Welcome, Admin"
+│       ├── base.html               # Basic layout
+│       ├── login.html              # Login + OTP UI
+│       ├── student.html            # "Welcome, Student"
+│       └── tutor_dashboard.html    # "Welcome, Tutor"
 │
-├── Requirements.txt
-└── README.md
+├── .gitignore
+├── .env                            # (create this manually)
+├── README.md
+└── Requirements.txt
 ```
 
 ---
 
-## ⚙️ Quickstart
-
-### 📥 1. Clone & Setup
+## 🔧 Installation Guide
 
 ```bash
 git clone https://github.com/abdulrehmangulfaraz/modular-auth-core
 cd modular-auth-core
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate
+source venv/bin/activate      # Windows: venv\Scripts\activate
 pip install -r Requirements.txt
 ```
 
-### ⚙️ 2. Environment Configuration
-Create a `.env` file:
+---
+
+## ⚙️ Configuration
+
+Create a `.env` file in the root folder:
+
 ```ini
 DATABASE_URL=sqlite:///./auth.db
 OTP_EXPIRY_MINUTES=5
 USER_ROLES=student,tutor,admin
 ```
 
-### 🗃️ 3. Initialize Database
+You can switch to PostgreSQL by updating `DATABASE_URL` accordingly.
+
+---
+
+## 🗃️ Database Initialization
+
 ```bash
 python backend/init_db.py
 ```
 
-### 🚀 4. Launch Server
+This will create the database and necessary tables using SQLAlchemy.
+
+---
+
+## ▶️ Running the App
+
 ```bash
 uvicorn backend.main:app --reload
 ```
-Visit: `http://localhost:8000`
+
+Then open your browser at:
+📍 [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🧠 Customization Guide
+## 📄 Notes
 
-### 🔄 Add/Change Roles
-In `config.py` or directly in `models.py`:
-```python
-USER_TYPES = {
-  "student": {"fields": ["email", "cnic"]},
-  "tutor": {"fields": ["cv_upload", "qualification"]},
-  "admin": {"fields": []}
-}
-```
-
-### 🧱 Add Custom Fields
-In `models.py`:
-```python
-class User(Base):
-    profile_picture = Column(String)
-    degree_title = Column(String)
-```
-
-### 🛠 Switch to PostgreSQL
-Update `.env`:
-```ini
-DATABASE_URL=postgresql://user:pass@localhost:5432/auth_db
-```
+* 🔸 This project includes only basic dashboard templates with "Welcome" messages — no detailed dashboard logic.
+* 🔸 Templates are meant as placeholders and can be replaced or extended easily.
+* 🔸 File uploads (e.g., CNIC, CVs) are supported but not actively used in dashboards yet.
+* 🔸 OTP logic is functional (send, verify, resend) but assumes valid SMTP credentials in place.
 
 ---
 
-## 🔒 Security Highlights
+## 📬 Contact
 
-- `bcrypt`-based password hashing
-- OTP stored with expiry & resend protection
-- Upload folder validation & file type filtering
-- Minimal external dependencies
-
----
-
-## 💡 Built With
-
-| Layer       | Stack            |
-|-------------|------------------|
-| Framework   | FastAPI          |
-| ORM         | SQLAlchemy       |
-| Database    | PostgreSQL / SQLite |
-| Templates   | Jinja2           |
-| Mailer      | aiosmtplib (SMTP) |
+**Abdulrehman Gulfaraz**
+📧 [abdulrehmangulfaraz@gmail.com](mailto:abdulrehmangulfaraz@gmail.com)
+🐙 [github.com/abdulrehmangulfaraz](https://github.com/abdulrehmangulfaraz)
+💼 [linkedin.com/in/abdulrehman-gulfaraz](https://linkedin.com/in/abdulrehman-gulfaraz)
 
 ---
 
-## 🧠 Author & Maintainer
+## 📜 License
 
-> Developed by **Abdulrehman Gulfaraz**  
-> CS Undergraduate – UET Lahore (KSK)  
-> 🧠 Python | FastAPI | MASM | C++ | SQL | Web Systems
-
-🔗 GitHub: [@abdulrehmangulfaraz](https://github.com/abdulrehmangulfaraz)
+Released under the [MIT License](LICENSE).
+Feel free to use or modify this basic starter in your own FastAPI projects.
 
 ---
-
 
